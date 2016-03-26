@@ -6,7 +6,7 @@ FOR KOA 2 ONLY.
 
 ```js
 import Koa from 'koa';
-improt query from 'koa-query';
+import query from 'koa-query';
 
 let app = new Koa();
 app.use(query({
