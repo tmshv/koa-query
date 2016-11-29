@@ -8,7 +8,7 @@ export default function query(params) {
 		const queryKeys = Object.keys(query);
 		const keys = Array.from(new Set([...paramsKeys, ...queryKeys]))
         
-        ctx.request.query = keys.reduce((q, key) => {
+        ctx.q = keys.reduce((q, key) => {
             if (contains(paramsKeys, key)) {
                 let fn = params[key];
                 q[key] = fn(q[key]);
