@@ -1,19 +1,20 @@
 const contains = (list, i) => list.indexOf(i) > -1;
 
 export default function query(params) {
-    const keys = Object.keys(params);
+    const paramsKeys = Object.keys(params);
 
     return async(ctx, next) => {
         const query = ctx.request.query;
-        ctx.request.query = Object
-			.keys(query)
-            .reduce((q, key) => {
-                if (contains(keys, key)) {
-                    let fn = params[key];
-                    q[key] = fn(q[key]);
-                }
-                return q;
-            }, query);
+		const queryKeys = Object.keys(query);
+		const keys = Array.from(new Set([...paramsKeys, ...queryKeys]))
+        
+        ctx.request.query = keys.reduce((q, key) => {
+            if (contains(paramsKeys, key)) {
+                let fn = params[key];
+                q[key] = fn(q[key]);
+            }
+            return q;
+        }, query);
 
         await next();
     };
